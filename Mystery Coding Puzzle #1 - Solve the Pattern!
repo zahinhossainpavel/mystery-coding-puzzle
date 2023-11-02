@@ -1,24 +1,27 @@
 #include <iostream>
+#include <string>
 
-void printPattern(int n, int i, int j) {
+std::string generatePattern(int n, int i = 0, int j = 0, std::string pattern = "") {
     if (i == n) {
-        return;  // Base case, stop the recursion when i reaches n
+        return pattern;
     }
 
     int value = (i + j) % n + 1;
-    std::cout << value;
+    pattern += std::to_string(value);
 
     if (j < n - 1) {
-        printPattern(n, i, j + 1);  // Recurse to the next column
+        pattern += " ";
+        return generatePattern(n, i, j + 1, pattern);
     } else {
-        std::cout << std::endl;  // Move to the next row
-        printPattern(n, i + 1, 0);  // Recurse to the next row
+        pattern += "\n";
+        return generatePattern(n, i + 1, 0, pattern);
     }
 }
 
 int main() {
-    int n = 5; // You can change this value to adjust the pattern size
-    printPattern(n, 0, 0);
+    int n = 5;  // You can change this value to adjust the pattern size
+    std::string pattern = generatePattern(n);
+    std::cout << pattern;
 
     return 0;
 }
