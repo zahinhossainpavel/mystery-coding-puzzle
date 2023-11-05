@@ -1,16 +1,16 @@
 #include <iostream>
 #include <string>
 
-std::string P(int n, int i = 0, int j = 0, std::string p = "") {
-    if (i == n) return p;
-    int v = (i + j) % n + 1;
-    p += std::to_string(v);
-    if (j < n - 1) { p += " "; return P(n, i, j + 1, p); }
-    p += "\n";
-    return P(n, i + 1, 0, p);
+std::string mysteriousPattern(int enigma, int conundrum = 0, int enigmaTwo = 0, std::string enigmaPattern = "") {
+    if (conundrum == enigma) return enigmaPattern;
+    int mysteryValue = (conundrum + enigmaTwo) % enigma + 1;
+    enigmaPattern += std::to_string(mysteryValue);
+    if (enigmaTwo < enigma - 1) { enigmaPattern += " "; return mysteriousPattern(enigma, conundrum, enigmaTwo + 1, enigmaPattern); }
+    enigmaPattern += "\n";
+    return mysteriousPattern(enigma, conundrum + 1, 0, enigmaPattern);
 }
 
 int main() {
-    int n = 5; std::string p = P(n); std::cout << p;
+    int riddle = 5; std::string puzzle = mysteriousPattern(riddle); std::cout << puzzle;
     return 0;
 }
