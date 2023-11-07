@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int N = 8;
+
+int rowMove[] = {2, 1, -1, -2, -2, -1, 1, 2};
+int colMove[] = {1, 2, 2, 1, -1, -2, -2, -1};
+
+bool isValid(int x, int y, vector<vector<int>>& board) {
+    return (x >= 0 && y >= 0 && x < N && y < N && board[x][y] == -1);
+}
+
+bool solveKnightTour(int x, int y, int moveNumber, vector<vector<int>>& board) {
+    if (moveNumber == N * N) {
+        return true; // All squares have been visited
+    }
+
+    for (int i = 0; i < 8; i++) {
+        int nextX = x + rowMove[i];
+        int nextY = y + colMove[i];
+
+        if (isValid(nextX, nextY, board)) {
+            board[nextX][nextY] = moveNumber;
+            if (solveKnightTour(nextX, nextY, moveNumber + 1, board)) {
+                return true;
+            }
+            board[nextX][nextY] = -1; // Backtrack
+        }
+    }
+    return false;
+}
+
+int main() {
+    vector<vector<int>> board(N, vector<int>(N, -1));
+
+    int startX, startY;
+    cout << "Enter starting X coordinate (0 to 7): ";
+    cin >> startX;
+    cout << "Enter starting Y coordinate (0 to 7): ";
+    cin >> startY;
+
+    if (startX < 0 || startX >= N || startY < 0 || startY >= N) {
+        cout << "Invalid starting position. Please use coordinates in the range 0 to 7." << endl;
+        return 1;
+    }
+
+    board[startX][startY] = 0; // Set starting position
+
+    if (solveKnightTour(startX, startY, 1, board)) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                cout << board[i][j] << " ";
+            }
+            cout << endl;
+        }
+    } else {
+        cout << "No solution exists." << endl;
+    }
+
+    return 0;
+}
